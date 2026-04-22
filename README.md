@@ -63,3 +63,22 @@ run_pipeline.bat
 - Version control with Git
 
 ## 📁 Project Structure
+
+src/
+├── 01_data_generation.py    # Generate synthetic data
+├── 02_etl_pipeline.py        # ETL processes
+├── 03_sql_analytics.py       # SQL analysis
+├── 04_visualization.py       # Create charts
+└── 05_power_bi_export.py     # Export for Power BI
+
+## 👤 Author
+
+**Jin02420** - [GitHub Profile](https://github.com/Jin02420)
+
+## 📄 License
+
+MIT License
+
+---
+
+⭐ **If you found this project helpful, please give it a star!**
