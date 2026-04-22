@@ -1,0 +1,8 @@
+# Exclude ALL data files 
+data/ 
+reports/charts/ 
+*.db 
+*.sqlite 
+*.csv 
+__pycache__/ 
+*.pyc
