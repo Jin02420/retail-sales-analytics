@@ -16,7 +16,7 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            padding: 20px;
+            padding: clamp(10px, 3vw, 20px);
         }
 
         .container {
@@ -27,31 +27,31 @@
         .header {
             text-align: center;
             color: white;
-            margin-bottom: 30px;
+            margin-bottom: clamp(15px, 3vw, 30px);
         }
 
         .header h1 {
-            font-size: 2.5rem;
+            font-size: clamp(1.5rem, 5vw, 2.5rem);
             margin-bottom: 10px;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
 
         .header p {
-            font-size: 1.1rem;
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
             opacity: 0.9;
         }
 
         .kpi-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr));
+            gap: clamp(10px, 2vw, 20px);
+            margin-bottom: clamp(15px, 3vw, 30px);
         }
 
         .kpi-card {
             background: white;
             border-radius: 15px;
-            padding: 25px;
+            padding: clamp(15px, 3vw, 25px);
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
             transition: transform 0.3s ease;
         }
@@ -62,7 +62,7 @@
 
         .kpi-label {
             color: #666;
-            font-size: 0.9rem;
+            font-size: clamp(0.7rem, 1.5vw, 0.9rem);
             text-transform: uppercase;
             letter-spacing: 1px;
             margin-bottom: 10px;
@@ -70,45 +70,43 @@
 
         .kpi-value {
             color: #333;
-            font-size: 2rem;
+            font-size: clamp(1.2rem, 4vw, 2rem);
             font-weight: bold;
             margin-bottom: 5px;
+            word-break: break-word;
         }
 
         .kpi-change {
-            font-size: 0.85rem;
+            font-size: clamp(0.7rem, 1.5vw, 0.85rem);
             color: #28a745;
-        }
-
-        .kpi-change.negative {
-            color: #dc3545;
         }
 
         .chart-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
-            gap: 20px;
-            margin-bottom: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+            gap: clamp(10px, 2vw, 20px);
+            margin-bottom: clamp(10px, 2vw, 20px);
         }
 
         .chart-card {
             background: white;
             border-radius: 15px;
-            padding: 20px;
+            padding: clamp(15px, 2vw, 20px);
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
         }
 
         .chart-card h2 {
             color: #333;
             margin-bottom: 15px;
-            font-size: 1.3rem;
+            font-size: clamp(1rem, 2.5vw, 1.3rem);
             border-bottom: 2px solid #667eea;
             padding-bottom: 10px;
         }
 
         .chart {
             width: 100%;
-            height: 400px;
+            height: clamp(250px, 50vw, 350px);
         }
 
         .full-width {
@@ -118,29 +116,33 @@
         .footer {
             text-align: center;
             color: white;
-            margin-top: 30px;
-            padding: 20px;
+            margin-top: clamp(15px, 3vw, 30px);
+            padding: clamp(10px, 2vw, 20px);
             opacity: 0.8;
-        }
-
-        .loading {
-            text-align: center;
-            color: white;
-            font-size: 1.5rem;
-            margin: 50px 0;
+            font-size: clamp(0.8rem, 1.5vw, 1rem);
         }
 
         @media (max-width: 768px) {
-            .header h1 {
-                font-size: 1.8rem;
-            }
-            
             .chart-container {
                 grid-template-columns: 1fr;
             }
-            
-            .kpi-value {
-                font-size: 1.5rem;
+
+            .kpi-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .chart {
+                height: 300px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .kpi-container {
+                grid-template-columns: 1fr;
+            }
+
+            body {
+                padding: 10px;
             }
         }
     </style>
@@ -149,16 +151,12 @@
     <div class="container">
         <div class="header">
             <h1>📊 Retail Sales Analytics Dashboard</h1>
-            <p>Interactive Business Intelligence Dashboard</p>
+            <p>Interactive Business Intelligence Dashboard - Sample Data</p>
         </div>
 
-        <div class="loading" id="loading">Loading data...</div>
-
-        <div id="dashboard" style="display: none;">
-            <!-- KPI Cards -->
+        <div id="dashboard">
             <div class="kpi-container" id="kpiContainer"></div>
 
-            <!-- Charts -->
             <div class="chart-container">
                 <div class="chart-card full-width">
                     <h2>📈 Revenue & Profit Trends</h2>
@@ -189,77 +187,27 @@
                     <h2>📅 Monthly Revenue Heatmap</h2>
                     <div id="heatmapChart" class="chart"></div>
                 </div>
-
-                <div class="chart-card full-width">
-                    <h2>🏅 Top 10 Products</h2>
-                    <div id="productChart" class="chart"></div>
-                </div>
             </div>
         </div>
 
         <div class="footer">
-            <p>Retail Sales Analytics Dashboard | Created with Python, SQL & JavaScript</p>
-            <p>Data Range: 2022-2024 | Total Transactions: 475K+</p>
+            <p>Retail Sales Analytics Dashboard | Built with Python, SQL & JavaScript</p>
+            <p>Sample Data Visualization | Total Revenue: $322.9M | 475K+ Transactions</p>
         </div>
     </div>
 
     <script>
-        // Load CSV data
-        async function loadCSV(filename) {
-            try {
-                const response = await fetch(filename);
-                const text = await response.text();
-                return parseCSV(text);
-            } catch (error) {
-                console.error('Error loading ' + filename + ':', error);
-                return [];
-            }
+        function initDashboard() {
+            createKPICards();
+            createRevenueTrend();
+            createCategoryChart();
+            createRegionalChart();
+            createSegmentChart();
+            createPaymentChart();
+            createHeatmap();
         }
 
-        function parseCSV(text) {
-            const lines = text.trim().split('\n');
-            const headers = lines[0].split(',');
-            return lines.slice(1).map(line => {
-                const values = line.split(',');
-                const obj = {};
-                headers.forEach((header, index) => {
-                    obj[header.trim()] = values[index]?.trim() || '';
-                });
-                return obj;
-            });
-        }
-
-        async function initDashboard() {
-            try {
-                // Load data
-                const monthlyData = await loadCSV('data/processed/powerbi_monthly_summary.csv');
-                const categoryData = await loadCSV('data/processed/powerbi_category_performance.csv');
-                const regionalData = await loadCSV('data/processed/powerbi_regional_performance.csv');
-                const kpiData = await loadCSV('data/processed/powerbi_kpi_summary.csv');
-
-                // Create KPI Cards
-                createKPICards(kpiData);
-
-                // Create Charts
-                createRevenueTrend(monthlyData);
-                createCategoryChart(categoryData);
-                createRegionalChart(regionalData);
-                createSegmentChart();
-                createPaymentChart();
-                createHeatmap(monthlyData);
-                createProductChart(categoryData);
-
-                // Show dashboard
-                document.getElementById('loading').style.display = 'none';
-                document.getElementById('dashboard').style.display = 'block';
-
-            } catch (error) {
-                document.getElementById('loading').innerHTML = 'Error loading data. Please make sure CSV files are in data/processed/ folder.';
-                console.error('Dashboard error:', error);
-            }
-        }
-
-        function createKPICards(kpiData) {
+        function createKPICards() {
             const kpiContainer = document.getElementById('kpiContainer');
             
             const kpis = [
@@ -283,10 +231,16 @@
             });
         }
 
-        function createRevenueTrend(data) {
-            const months = data.map(d => d.year_month);
-            const revenue = data.map(d => parseFloat(d.total_revenue));
-            const profit = data.map(d => parseFloat(d.total_profit));
+        function createRevenueTrend() {
+            const months = ['2023-01', '2023-02', '2023-03', '2023-04', '2023-05', '2023-06',
+                           '2023-07', '2023-08', '2023-09', '2023-10', '2023-11', '2023-12',
+                           '2024-01', '2024-02', '2024-03', '2024-04', '2024-05', '2024-06',
+                           '2024-07', '2024-08', '2024-09', '2024-10', '2024-11', '2024-12'];
+            const revenue = [9200000, 8800000, 9500000, 9100000, 9600000, 9200000,
+                           9700000, 9500000, 9200000, 9600000, 6400000, 6500000,
+                           9400000, 8900000, 9600000, 9100000, 9700000, 9300000,
+                           9700000, 9600000, 9200000, 9600000, 6500000, 6600000];
+            const profit = revenue.map(r => r * 0.35);
 
             const trace1 = {
                 x: months,
@@ -295,7 +249,7 @@
                 type: 'scatter',
                 mode: 'lines+markers',
                 line: { color: '#667eea', width: 3 },
-                marker: { size: 8 }
+                marker: { size: 6 }
             };
 
             const trace2 = {
@@ -305,7 +259,7 @@
                 type: 'scatter',
                 mode: 'lines+markers',
                 line: { color: '#28a745', width: 3 },
-                marker: { size: 8 }
+                marker: { size: 6 }
             };
 
             const layout = {
@@ -313,16 +267,20 @@
                 hovermode: 'x unified',
                 xaxis: { title: 'Month' },
                 yaxis: { title: 'Amount ($)' },
-                margin: { t: 20, b: 50, l: 80, r: 20 }
+                margin: { t: 20, b: 50, l: 60, r: 20 },
+                autosize: true,
+                responsive: true
             };
 
-            Plotly.newPlot('revenueTrend', [trace1, trace2], layout, {responsive: true});
+            const config = {responsive: true, displayModeBar: false};
+            Plotly.newPlot('revenueTrend', [trace1, trace2], layout, config);
         }
 
-        function createCategoryChart(data) {
-            const topCategories = data.slice(0, 10);
-            const categories = topCategories.map(d => d.category);
-            const revenues = topCategories.map(d => parseFloat(d.total_revenue));
+        function createCategoryChart() {
+            const categories = ['Clothing', 'Electronics', 'Home & Garden', 'Sports', 'Books', 
+                              'Toys', 'Food & Beverage', 'Health & Beauty', 'Automotive', 'Office'];
+            const revenues = [254000000, 48000000, 8500000, 6100000, 2900000, 
+                            1800000, 1200000, 900000, 600000, 400000];
 
             const trace = {
                 x: revenues,
@@ -336,24 +294,23 @@
             };
 
             const layout = {
-                margin: { t: 20, b: 50, l: 150, r: 20 },
+                margin: { t: 20, b: 50, l: 120, r: 20 },
                 xaxis: { title: 'Revenue ($)' },
-                yaxis: { autorange: 'reversed' }
+                yaxis: { autorange: 'reversed' },
+                autosize: true
             };
 
-            Plotly.newPlot('categoryChart', [trace], layout, {responsive: true});
+            const config = {responsive: true, displayModeBar: false};
+            Plotly.newPlot('categoryChart', [trace], layout, config);
         }
 
-        function createRegionalChart(data) {
-            const regions = {};
-            data.forEach(d => {
-                if (!regions[d.region]) regions[d.region] = 0;
-                regions[d.region] += parseFloat(d.total_revenue);
-            });
+        function createRegionalChart() {
+            const regions = ['North', 'South', 'East', 'West', 'Central'];
+            const values = [75000000, 68000000, 62000000, 58000000, 60000000];
 
             const trace = {
-                labels: Object.keys(regions),
-                values: Object.values(regions),
+                labels: regions,
+                values: values,
                 type: 'pie',
                 hole: 0.4,
                 marker: {
@@ -363,10 +320,12 @@
 
             const layout = {
                 margin: { t: 20, b: 20, l: 20, r: 20 },
-                showlegend: true
+                showlegend: true,
+                autosize: true
             };
 
-            Plotly.newPlot('regionalChart', [trace], layout, {responsive: true});
+            const config = {responsive: true, displayModeBar: false};
+            Plotly.newPlot('regionalChart', [trace], layout, config);
         }
 
         function createSegmentChart() {
@@ -383,11 +342,14 @@
             };
 
             const layout = {
-                margin: { t: 20, b: 50, l: 60, r: 20 },
-                yaxis: { title: 'Customers' }
+                margin: { t: 20, b: 80, l: 50, r: 20 },
+                yaxis: { title: 'Customers' },
+                xaxis: { tickangle: -45 },
+                autosize: true
             };
 
-            Plotly.newPlot('segmentChart', [trace], layout, {responsive: true});
+            const config = {responsive: true, displayModeBar: false};
+            Plotly.newPlot('segmentChart', [trace], layout, config);
         }
 
         function createPaymentChart() {
@@ -404,66 +366,53 @@
             };
 
             const layout = {
-                margin: { t: 20, b: 20, l: 20, r: 20 }
+                margin: { t: 20, b: 20, l: 20, r: 20 },
+                autosize: true
             };
 
-            Plotly.newPlot('paymentChart', [trace], layout, {responsive: true});
+            const config = {responsive: true, displayModeBar: false};
+            Plotly.newPlot('paymentChart', [trace], layout, config);
         }
 
-        function createHeatmap(data) {
-            const years = [...new Set(data.map(d => d.year))];
-            const months = Array.from({length: 12}, (_, i) => i + 1);
+        function createHeatmap() {
+            const years = [2022, 2023, 2024];
+            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
             
-            const z = months.map(month => {
-                return years.map(year => {
-                    const item = data.find(d => parseInt(d.year) === parseInt(year) && parseInt(d.month) === month);
-                    return item ? parseFloat(item.total_revenue) : 0;
-                });
-            });
+            const z = [
+                [8500000, 8200000, 8800000, 8400000, 8900000, 8500000, 9000000, 8800000, 8500000, 8900000, 5900000, 6000000],
+                [9200000, 8800000, 9500000, 9100000, 9600000, 9200000, 9700000, 9500000, 9200000, 9600000, 6400000, 6500000],
+                [9400000, 8900000, 9600000, 9100000, 9700000, 9300000, 9700000, 9600000, 9200000, 9600000, 6500000, 6600000]
+            ];
 
             const trace = {
                 z: z,
                 x: years,
-                y: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                y: months,
                 type: 'heatmap',
                 colorscale: 'YlOrRd'
             };
 
             const layout = {
-                margin: { t: 20, b: 50, l: 60, r: 20 },
+                margin: { t: 20, b: 50, l: 50, r: 20 },
                 xaxis: { title: 'Year' },
-                yaxis: { title: 'Month' }
+                yaxis: { title: 'Month' },
+                autosize: true
             };
 
-            Plotly.newPlot('heatmapChart', [trace], layout, {responsive: true});
+            const config = {responsive: true, displayModeBar: false};
+            Plotly.newPlot('heatmapChart', [trace], layout, config);
         }
 
-        function createProductChart(data) {
-            const topProducts = data.slice(0, 10);
-            const products = topProducts.map((d, i) => `Product ${i+1}`);
-            const revenues = topProducts.map(d => parseFloat(d.total_revenue));
-
-            const trace = {
-                x: products,
-                y: revenues,
-                type: 'bar',
-                marker: {
-                    color: revenues,
-                    colorscale: 'Blues'
-                }
-            };
-
-            const layout = {
-                margin: { t: 20, b: 80, l: 80, r: 20 },
-                xaxis: { tickangle: -45 },
-                yaxis: { title: 'Revenue ($)' }
-            };
-
-            Plotly.newPlot('productChart', [trace], layout, {responsive: true});
-        }
-
-        // Initialize dashboard when page loads
         window.onload = initDashboard;
+        
+        window.addEventListener('resize', function() {
+            Plotly.Plots.resize('revenueTrend');
+            Plotly.Plots.resize('categoryChart');
+            Plotly.Plots.resize('regionalChart');
+            Plotly.Plots.resize('segmentChart');
+            Plotly.Plots.resize('paymentChart');
+            Plotly.Plots.resize('heatmapChart');
+        });
     </script>
 </body>
 </html>
