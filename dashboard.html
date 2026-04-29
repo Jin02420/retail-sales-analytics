@@ -169,11 +169,6 @@
                 </div>
 
                 <div class="chart-card">
-                    <h2>🌍 Regional Distribution</h2>
-                    <div id="regionalChart" class="chart"></div>
-                </div>
-
-                <div class="chart-card">
                     <h2>👥 Customer Segments</h2>
                     <div id="segmentChart" class="chart"></div>
                 </div>
@@ -201,7 +196,6 @@
             createKPICards();
             createRevenueTrend();
             createCategoryChart();
-            createRegionalChart();
             createSegmentChart();
             createPaymentChart();
             createHeatmap();
@@ -304,30 +298,7 @@
             Plotly.newPlot('categoryChart', [trace], layout, config);
         }
 
-        function createRegionalChart() {
-            const regions = ['North', 'South', 'East', 'West', 'Central'];
-            const values = [75000000, 68000000, 62000000, 58000000, 60000000];
-
-            const trace = {
-                labels: regions,
-                values: values,
-                type: 'pie',
-                hole: 0.4,
-                marker: {
-                    colors: ['#667eea', '#764ba2', '#f093fb', '#4facfe', '#43e97b']
-                }
-            };
-
-            const layout = {
-                margin: { t: 20, b: 20, l: 20, r: 20 },
-                showlegend: true,
-                autosize: true
-            };
-
-            const config = {responsive: true, displayModeBar: false};
-            Plotly.newPlot('regionalChart', [trace], layout, config);
-        }
-
+        
         function createSegmentChart() {
             const segments = ['Champions', 'Loyal', 'Promising', 'At Risk', 'Lost', 'Regular'];
             const counts = [5234, 12456, 8901, 6543, 3421, 13445];
