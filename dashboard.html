@@ -177,11 +177,6 @@
                     <h2>💳 Payment Methods</h2>
                     <div id="paymentChart" class="chart"></div>
                 </div>
-
-                <div class="chart-card full-width">
-                    <h2>📅 Monthly Revenue Heatmap</h2>
-                    <div id="heatmapChart" class="chart"></div>
-                </div>
             </div>
         </div>
 
@@ -198,7 +193,6 @@
             createCategoryChart();
             createSegmentChart();
             createPaymentChart();
-            createHeatmap();
         }
 
         function createKPICards() {
@@ -345,35 +339,7 @@
             Plotly.newPlot('paymentChart', [trace], layout, config);
         }
 
-        function createHeatmap() {
-            const years = [2022, 2023, 2024];
-            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-            
-            const z = [
-                [8500000, 8200000, 8800000, 8400000, 8900000, 8500000, 9000000, 8800000, 8500000, 8900000, 5900000, 6000000],
-                [9200000, 8800000, 9500000, 9100000, 9600000, 9200000, 9700000, 9500000, 9200000, 9600000, 6400000, 6500000],
-                [9400000, 8900000, 9600000, 9100000, 9700000, 9300000, 9700000, 9600000, 9200000, 9600000, 6500000, 6600000]
-            ];
-
-            const trace = {
-                z: z,
-                x: years,
-                y: months,
-                type: 'heatmap',
-                colorscale: 'YlOrRd'
-            };
-
-            const layout = {
-                margin: { t: 20, b: 50, l: 50, r: 20 },
-                xaxis: { title: 'Year' },
-                yaxis: { title: 'Month' },
-                autosize: true
-            };
-
-            const config = {responsive: true, displayModeBar: false};
-            Plotly.newPlot('heatmapChart', [trace], layout, config);
-        }
-
+        
         window.onload = initDashboard;
         
         window.addEventListener('resize', function() {
@@ -382,7 +348,6 @@
             Plotly.Plots.resize('regionalChart');
             Plotly.Plots.resize('segmentChart');
             Plotly.Plots.resize('paymentChart');
-            Plotly.Plots.resize('heatmapChart');
         });
     </script>
 </body>
